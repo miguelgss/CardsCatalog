@@ -32,7 +32,36 @@ namespace Cards.DAO
 
         public List<Card> ListAllCards()
         {
-            throw new NotImplementedException();
+            using (SqlConnection con = new SqlConnection())
+            {
+                con.ConnectionString = Properties.Settings.Default.database;
+                SqlCommand cn = new SqlCommand();
+                cn.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                // Nesse caso, os colchetes são mandatórios para que o insert funcione
+                cn.CommandText = "SELECT * from Card ";
+                cn.Connection = con; // Isso permite o uso da conexão estabelecida em con
+
+                SqlDataReader reader;
+                List<Card> listCards = new List<Card>();
+
+                reader = cn.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read()) // Enquanto houver dados...
+                    {
+                        Card data = new Card();
+                        data.Id = Convert.ToInt32(reader["Id"]);
+                        data.Name = Convert.ToString(reader["Name"]);
+                        data.Type = Convert.ToString(reader["Type"]);
+
+                        listCards.Add(data);
+                        Console.WriteLine(listCards.Count);
+                    }
+                }
+
+                return listCards;
+            }
         }
     }
 }

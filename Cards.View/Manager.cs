@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace Cards.View
 {
-    public partial class frmLogin : Form
+    public partial class frmCardManager : Form
     {
 
         Card objTable = new Card();
-        public frmLogin()
+        public frmCardManager()
         {
             InitializeComponent();
         }
@@ -85,6 +85,8 @@ namespace Cards.View
                 default:
                     break;
             }
+
+            ListGrid(); // Da update na lista do grid
         }
 
         private void EnableFields() // Habilita os campos para digitação
@@ -105,6 +107,7 @@ namespace Cards.View
             {
                 List<Card> listCards = new List<Card>();
                 listCards = new CardModel().ListAllCards();
+                DGView.AutoGenerateColumns = false;
                 DGView.DataSource = listCards;
             }
             catch (Exception ex)
@@ -112,6 +115,11 @@ namespace Cards.View
                 MessageBox.Show("Algo deu zebra. " + ex);
                 throw;
             }
+        }
+
+        private void frmCardManager_Load(object sender, EventArgs e)
+        {
+            ListGrid();
         }
     }
 }

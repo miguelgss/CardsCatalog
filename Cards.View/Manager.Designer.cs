@@ -1,7 +1,7 @@
 ﻿
 namespace Cards.View
 {
-    partial class frmLogin
+    partial class frmCardManager
     {
         /// <summary>
         /// Required designer variable.
@@ -41,7 +41,7 @@ namespace Cards.View
             this.DGView = new System.Windows.Forms.DataGridView();
             this.btnDelete = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CardName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGView)).BeginInit();
             this.SuspendLayout();
@@ -136,7 +136,7 @@ namespace Cards.View
             this.DGView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
-            this.Name,
+            this.CardName,
             this.Type});
             this.DGView.Location = new System.Drawing.Point(12, 241);
             this.DGView.Name = "DGView";
@@ -163,14 +163,14 @@ namespace Cards.View
             this.Id.ReadOnly = true;
             this.Id.Width = 57;
             // 
-            // Name
+            // CardName
             // 
-            this.Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Name.DataPropertyName = "Name";
-            this.Name.HeaderText = "Card Name";
-            this.Name.Name = "Name";
-            this.Name.ReadOnly = true;
-            this.Name.Width = 85;
+            this.CardName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.CardName.DataPropertyName = "Name";
+            this.CardName.HeaderText = "Card Name";
+            this.CardName.Name = "CardName";
+            this.CardName.ReadOnly = true;
+            this.CardName.Width = 85;
             // 
             // Type
             // 
@@ -181,7 +181,7 @@ namespace Cards.View
             this.Type.ReadOnly = true;
             this.Type.Width = 81;
             // 
-            // frmLogin
+            // frmCardManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -197,8 +197,9 @@ namespace Cards.View
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "frmLogin";
+            this.Name = "frmCardManager";
             this.Text = "Card Manager";
+            this.Load += new System.EventHandler(this.frmCardManager_Load);
             ((System.ComponentModel.ISupportInitialize)(this.DGView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -219,7 +220,7 @@ namespace Cards.View
         private System.Windows.Forms.DataGridView DGView;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CardName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
     }
 }
