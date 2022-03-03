@@ -29,5 +29,10 @@ namespace Cards.DAO
                 return qtd;
             }
         }
+
+        public List<Card> ListAllCards()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

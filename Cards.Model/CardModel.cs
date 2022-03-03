@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cards.Model
 {
-    public class CardModel // Recebe informações do banco de dados
+    public class CardModel // Recebe informações do banco de dados via o DAO
     {
         public static int Insert(Card objTable)
         {
@@ -17,7 +17,7 @@ namespace Cards.Model
 
         public List<Card> ListAllCards()
         {
-            throw new NotImplementedException();
+            return new CardDAO().ListAllCards();
         }
     }
 }
