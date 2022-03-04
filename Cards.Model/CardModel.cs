@@ -30,7 +30,7 @@ namespace Cards.Model
             return new CardDAO().Update(objTable);
         }
 
-        public static bool Search(Card objTable)
+        public List<Card> Search(Card objTable)
         {
             return new CardDAO().Search(objTable);
         }

@@ -31,6 +31,7 @@ namespace Cards.View
         {
             opc = "Save";
             startOpc();
+            ListGrid();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -44,6 +45,7 @@ namespace Cards.View
                 opc = "Update";
                 startOpc();
             }
+            ListGrid();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -57,12 +59,7 @@ namespace Cards.View
                 opc = "Delete";
                 startOpc();
             }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            opc = "Search";
-            startOpc();
+            ListGrid();
         }
 
         private string opc = "";
@@ -165,30 +162,25 @@ namespace Cards.View
                 case "Search":
                     try
                     {
-                        objTable.Name = txtCode.Text;
+                        objTable.Name = txtSearch.Text;
 
-                        bool x = false;
+                        List<Card> listCards = new List<Card>();
+                        listCards = new CardModel().Search(objTable);
 
-                        if (txtCode.Text == "")
-                        {
-                            MessageBox.Show("Preencha o campo para poder pesquisar.");
-                            return;
-                        }
+                        lblMessage.Text = String.Format("Foram encontrados {0} resultados.",listCards.Count);
 
-                        x = CardModel.Search(objTable);
-
+                        DGView.AutoGenerateColumns = false;
+                        DGView.DataSource = listCards;
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Ocorreu um erro ao excluir. " + ex.Message);
+                        MessageBox.Show("Algo deu zebra. " + ex);
                         throw;
                     }
                     break;
                 default:
                     break;
             }
-
-            ListGrid(); // Da update na lista do grid
         }
 
         private void EnableFields() // Habilita os campos para digitação
@@ -231,6 +223,19 @@ namespace Cards.View
             txtName.Text = DGView.CurrentRow.Cells[1].Value.ToString();
             txtCT.Text = DGView.CurrentRow.Cells[2].Value.ToString();
             EnableFields();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(txtSearch.Text))
+            {
+                ListGrid();
+            }
+            else
+            {
+                opc = "Search";
+                startOpc();
+            }
         }
     }
 }
