@@ -54,12 +54,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchCard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SearchCard.Designer.cs">
-      <DependentUpon>SearchCard.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.cs</DependentUpon>
     </EmbeddedResource>
