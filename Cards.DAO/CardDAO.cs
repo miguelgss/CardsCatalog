@@ -26,6 +26,54 @@ namespace Cards.DAO
                 cn.Connection = con; // Isso permite o uso da conexão estabelecida em con
                 int qtd = cn.ExecuteNonQuery();
 
+                con.Close();
+                return qtd;
+            }
+        }
+
+        public bool Search(Card objTable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(Card objTable)
+        {
+            using (SqlConnection con = new SqlConnection())
+            {
+                con.ConnectionString = Properties.Settings.Default.database;
+                SqlCommand cn = new SqlCommand();
+                cn.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                // Nesse caso, os colchetes são mandatórios para que o insert funcione
+                cn.CommandText = "UPDATE Card SET Name = @Name, Type = @Type where Id = @Id";
+                cn.Parameters.Add("Id", System.Data.SqlDbType.Int).Value = objTable.Id;
+                cn.Parameters.Add("Name", System.Data.SqlDbType.VarChar).Value = objTable.Name;
+                cn.Parameters.Add("Type", System.Data.SqlDbType.VarChar).Value = objTable.Type;
+
+                cn.Connection = con; // Isso permite o uso da conexão estabelecida em con
+                int qtd = cn.ExecuteNonQuery();
+
+                con.Close();
+                return qtd;
+            }
+        }
+
+        public int Delete(Card objTable)
+        {
+            using (SqlConnection con = new SqlConnection())
+            {
+                con.ConnectionString = Properties.Settings.Default.database;
+                SqlCommand cn = new SqlCommand();
+                cn.CommandType = System.Data.CommandType.Text;
+                con.Open();
+                // Nesse caso, os colchetes são mandatórios para que o insert funcione
+                cn.CommandText = "DELETE FROM Card where Id = @Id";
+                cn.Parameters.Add("Id", System.Data.SqlDbType.Int).Value = objTable.Id;
+
+                cn.Connection = con; // Isso permite o uso da conexão estabelecida em con
+                int qtd = cn.ExecuteNonQuery();
+
+                con.Close();
                 return qtd;
             }
         }
@@ -56,9 +104,10 @@ namespace Cards.DAO
                         data.Type = Convert.ToString(reader["Type"]);
 
                         listCards.Add(data);
-                        Console.WriteLine(listCards.Count);
                     }
                 }
+
+                con.Close();
 
                 return listCards;
             }

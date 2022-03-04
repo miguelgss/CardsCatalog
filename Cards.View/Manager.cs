@@ -35,13 +35,33 @@ namespace Cards.View
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            opc = "Update";
-            startOpc();
+            if (txtCode.Text == "")
+            {
+                MessageBox.Show("Informe uma carta que exista clicando na tabela.");
+            }
+            else
+            {
+                opc = "Update";
+                startOpc();
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            opc = "Delete";
+            if (txtCode.Text == "")
+            {
+                MessageBox.Show("Informe uma carta que exista clicando na tabela.");
+            }
+            else
+            {
+                opc = "Delete";
+                startOpc();
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            opc = "Search";
             startOpc();
         }
 
@@ -54,6 +74,7 @@ namespace Cards.View
                 case "New":
                     EnableFields();
                     ClearFields();
+                    lblMessage.Text = "Insira uma nova carta.";
                     break;
                 case "Save":
                     try
@@ -61,15 +82,22 @@ namespace Cards.View
                         objTable.Name = txtName.Text;
                         objTable.Type = txtCT.Text;
 
-                        int x = CardModel.Insert(objTable);
+                        int x = 0;
+
+                        if (!String.IsNullOrEmpty(txtName.Text) && !String.IsNullOrEmpty(txtCT.Text))
+                        {
+                            x = CardModel.Insert(objTable);
+                        }
 
                         if(x > 0)
                         {
-                            MessageBox.Show(String.Format("Carta {0} inserida.", txtName.Text));
+                            //MessageBox.Show(String.Format("Carta {0} inserida.", txtName.Text));
+                            lblMessage.Text = String.Format("Carta {0} inserida.", txtName.Text);
                         }
                         else
                         {
-                            MessageBox.Show("Falha na inserção.");
+                            //MessageBox.Show("Falha na inserção.");
+                            lblMessage.Text = "Falha na inserção. Verifique se o nome e tipo estão preenchidos.";
                         }
                     }
                     catch (Exception ex)
@@ -79,8 +107,82 @@ namespace Cards.View
                     }
                     break;
                 case "Update":
+                    try
+                    {
+                        objTable.Id = Convert.ToInt32(txtCode.Text);
+                        objTable.Name = txtName.Text;
+                        objTable.Type = txtCT.Text;
+
+                        int x = 0;
+
+                        if (objTable.Id > 0)
+                        {
+                            x = CardModel.Update(objTable);
+                        }
+
+                        if (x > 0)
+                        {
+                            lblMessage.Text = String.Format("Carta {0} atualizada.", txtName.Text);
+                        }
+                        else
+                        {
+                            lblMessage.Text = "Falha na atualização. Verifique se o nome e tipo estão preenchidos.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ocorreu um erro ao atualizar. " + ex.Message);
+                        throw;
+                    }
                     break;
                 case "Delete":
+                    try
+                    {
+                        objTable.Id = Convert.ToInt32(txtCode.Text);
+
+                        int x = 0;
+
+                        if (objTable.Id > 0)
+                        {
+                            x = CardModel.Delete(objTable);
+                        }
+
+                        if (x > 0)
+                        {
+                            lblMessage.Text = String.Format("Carta {0} excluida.", txtName.Text);
+                        }
+                        else
+                        {
+                            lblMessage.Text = "Falha na exclusão. Verifique se o nome e tipo estão preenchidos.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ocorreu um erro ao excluir. " + ex.Message);
+                        throw;
+                    }
+                    break;
+                case "Search":
+                    try
+                    {
+                        objTable.Name = txtCode.Text;
+
+                        bool x = false;
+
+                        if (txtCode.Text == "")
+                        {
+                            MessageBox.Show("Preencha o campo para poder pesquisar.");
+                            return;
+                        }
+
+                        x = CardModel.Search(objTable);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ocorreu um erro ao excluir. " + ex.Message);
+                        throw;
+                    }
                     break;
                 default:
                     break;
@@ -101,7 +203,7 @@ namespace Cards.View
             txtCT.Text = "";
         }
 
-        private void ListGrid()
+        private void ListGrid() // Imprime a lista de cartas no DataGridView
         {
             try
             {
@@ -120,6 +222,15 @@ namespace Cards.View
         private void frmCardManager_Load(object sender, EventArgs e)
         {
             ListGrid();
+        }
+
+        // Obtem os dados da linha selecionada e os transcreve nas caixas de texto
+        private void DGView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            txtCode.Text = DGView.CurrentRow.Cells[0].Value.ToString();
+            txtName.Text = DGView.CurrentRow.Cells[1].Value.ToString();
+            txtCT.Text = DGView.CurrentRow.Cells[2].Value.ToString();
+            EnableFields();
         }
     }
 }

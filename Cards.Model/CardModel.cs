@@ -19,5 +19,20 @@ namespace Cards.Model
         {
             return new CardDAO().ListAllCards();
         }
+
+        public static int Delete(Card objTable)
+        {
+            return new CardDAO().Delete(objTable);
+        }
+
+        public static int Update(Card objTable)
+        {
+            return new CardDAO().Update(objTable);
+        }
+
+        public static bool Search(Card objTable)
+        {
+            return new CardDAO().Search(objTable);
+        }
     }
 }
